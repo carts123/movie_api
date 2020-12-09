@@ -1,0 +1,26 @@
+{
+  "name": "movie_api",
+  "version": "1.0.0",
+  "description": "film app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carts123/movie_api.git"
+  },
+  "keywords": [
+    "film"
+  ],
+  "author": "Jonny Carter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carts123/movie_api/issues"
+  },
+  "homepage": "https://github.com/carts123/movie_api#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
