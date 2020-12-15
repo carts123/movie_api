@@ -52,7 +52,7 @@ app.get('/', (req, res) => {
   res.send('My top 10 movies!');
 });
 
-app.use('/documentation.html', express.static('public'));
+app.use('/', express.static('public'));
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -60,6 +60,6 @@ app.use((err, req, res, next) => {
 });
 
 // listen for requests
-app.listen(8080, () =>
+app.listen(8080, () => {
   console.log('Your app is listening on port 8080.');
-);
+});
