@@ -6,5 +6,80 @@
   </head>
   <body>
 
+    <h1>URL endpoints</h1>
+
+    <table>
+      <tr>
+        <th>Business Logic</th>
+        <th>URL</th>
+        <th>HTTP Method</th>
+        <th>Request body data format</th>
+        <th>Response body data format</th>
+      </tr>
+      <tr>
+        <td>Return list of ALL movies</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>JSON - [{...},{...}]</td>
+      </tr>
+      <tr>
+        <td>Return data about a single movie by title</td>
+        <td>/movies/[title]</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>JSON</td>
+      </tr>
+      <tr>
+        <td>Return data about a genre</td>
+        <td>/movies/[genre]</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>JSON</td>
+      </tr>
+      <tr>
+        <td>Return data about a director</td>
+        <td>/movies/[director]</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>JSON</td>
+      </tr>
+      <tr>
+        <td>Register</td>
+        <td>/users</td>
+        <td>POST</td>
+        <td>JSON</td>
+        <td>JSON</td>
+      </tr>
+      <tr>
+        <td>Update user info</td>
+        <td>/users[username]</td>
+        <td>PUT</td>
+        <td>none</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Add movie to favourites</td>
+        <td>/users/[movie]</td>
+        <td>POST</td>
+        <td>JSON</td>
+        <td>Show test that a movie has been added</td>
+      </tr>
+      <tr>
+        <td>Remove a movie from favourites</td>
+        <td>/users/[movie]</td>
+        <td>DELETE</td>
+        <td>none</td>
+        <td>Show text that the movie has been removed</td>
+      </tr>
+      <tr>
+        <td>Allow users to deregister</td>
+        <td>/users/[deregister]</td>
+        <td>DELETE</td>
+        <td>none</td>
+        <td>Show text that the user email has been removed</td>
+      </tr>
+    </table>
+      
   </body>
 </html>
