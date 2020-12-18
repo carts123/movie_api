@@ -48,9 +48,6 @@ app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
 
-app.get('/', (req, res) => {
-  res.send('My top 10 movies!');
-});
 
 app.use('/', express.static('public'));
 
