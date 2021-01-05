@@ -106,7 +106,7 @@ app.delete('/movies/:movieID', (req, res) => {
 
 // Removes a user from the database
 app.delete('/users/:username', (req, res) => {
-  let user = users.find((user => { return user.id === req.params.id });
+  let user = users.find(user => { return user.id === req.params.id });
 
   if (user) {
     users = users.filter((obj) => { return obj.id !== req.params.id });
