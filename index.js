@@ -54,14 +54,14 @@ app.get('/movies/:title', (req, res) => {
     { return movie.title === req.params.title }));
 });
 // Gets the data about a single genre
-app.get('/movies/genres', (req, res) => {
+app.get('/movies/:genre', (req, res) => {
   res.json(movies.find((movie) =>
     { return movie.genre === req.params.genre }));
 });
 // Gets the data about a single director, by name
 app.get('/movies/directors/:name', (req, res) => {
   res.json(movies.find((movie) =>
-    { return movie.director === req.params.director }));
+    { return director.name === req.params.name }));
 });
 
 // Adds data for a new user to register
@@ -79,6 +79,10 @@ app.post('/users', (req, res) => {
 });
 
 // Update user info (username)
+app.put('/users/:username', (req, res) => {
+  let user = users.find((user) => { return user.username ===req.params.username });
+})
+
 
 // Adds movie data to their list of favourites
 app.post('/users/:username/movies/:movieID', (req, res) => {
@@ -106,11 +110,11 @@ app.delete('/movies/:movieID', (req, res) => {
 
 // Removes a user from the database
 app.delete('/users/:username', (req, res) => {
-  let user = users.find(user => { return user.id === req.params.id });
+  let user = users.find(user => { return user.username === req.params.username });
 
   if (user) {
-    users = users.filter((obj) => { return obj.id !== req.params.id });
-    res.status(201).send('User ' + req.params.id + ' was deleted.');
+    users = users.filter((obj) => { return obj.username !== req.params.username });
+    res.status(201).send('User ' + req.params.username + ' was deleted.');
   }
 });
 
