@@ -81,7 +81,12 @@ app.post('/users', (req, res) => {
 // Update user info (username)
 app.put('/users/:username', (req, res) => {
   let user = users.find((user) => { return user.username ===req.params.username });
-})
+
+  if (user) {
+    user.userName[req.params.newUsername] = parseInt(req.params.username);
+    res.status(201).send(user);
+  }
+});
 
 
 // Adds movie data to their list of favourites
@@ -98,7 +103,7 @@ app.post('/users/:username/movies/:movieID', (req, res) => {
   }
 });
 
-// Removes a movie from the list by ID
+// Removes a movie from the list
 app.delete('/movies/:movieID', (req, res) => {
   let movie = movies.find((movie) => { return movie.id === req.params.id });
 
