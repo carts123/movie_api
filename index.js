@@ -1,44 +1,54 @@
 const express = require('express');
   morgan = require('morgan');
+  bodyParser = require('body-parser'),
+  uuid = require('uuid');
 
 const app = express();
 
-app.use(morgan('common'));
+app.use(bodyParser.json());
 
 
 // Movie List
 let movies = [
   {
     title: 'The Dark Knight',
-    director: 'Christopher Nolan'
+    director: 'Christopher Nolan',
+    genre: 'Action'
   },
   {
     title: 'Blade Runner',
-    director: 'Ridley Scott'
+    director: 'Ridley Scott',
+    genre: 'Action'
   },
   {
     title: 'Inception',
-    director: 'Christopher Nolan'
+    director: 'Christopher Nolan',
+    genre: 'Thriller'
   },
   {
     title: 'se7en',
-    director: 'David Fincher'
+    director: 'David Fincher',
+    genre: 'Action'
   },
   {
     title: 'Fargo',
-    director: 'Joel and Ethan Coen'
+    director: 'Joel and Ethan Coen',
+    genre: 'Comedy'
   },
   {
     title: 'The Matrix',
-    director: 'Andy and Lana Wachowski'
+    director: 'Andy and Lana Wachowski',
+    genre: 'Action'
   },
   {
     title: 'Good Will Hunting',
-    director: 'Gus Van Sant'
+    director: 'Gus Van Sant',
+    genre: 'Drama'
   },
   {
     title: 'Monty Python and The Holy Grail',
-    director: 'Terry Gilliam and Terry Jones'
+    director: 'Terry Gilliam and Terry Jones',
+    genre: 'Comedy'
   }
 ];
 
@@ -53,15 +63,17 @@ app.get('/movies/:title', (req, res) => {
   res.json(movies.find((movie) =>
     { return movie.title === req.params.title }));
 });
-// Gets the data about a single genre
-app.get('/movies/:genre', (req, res) => {
+
+// Gets the data about a single genre by name/title
+app.get('/movies/genres/:title', (req, res) => {
   res.json(movies.find((movie) =>
-    { return movie.genre === req.params.genre }));
+    { return movie.title === req.params.title }));
 });
+
 // Gets the data about a single director, by name
 app.get('/movies/directors/:name', (req, res) => {
-  res.json(movies.find((movie) =>
-    { return director.name === req.params.name }));
+  res.json(movies.find((director) =>
+    { return director.name === req.params.name }))
 });
 
 // Adds data for a new user to register
@@ -83,11 +95,10 @@ app.put('/users/:username', (req, res) => {
   let user = users.find((user) => { return user.username ===req.params.username });
 
   if (user) {
-    user.userName[req.params.newUsername] = parseInt(req.params.username);
+    user.username[req.params.username] = parseInt(req.params.newusername);
     res.status(201).send(user);
   }
 });
-
 
 // Adds movie data to their list of favourites
 app.post('/users/:username/movies/:movieID', (req, res) => {
