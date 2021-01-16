@@ -13,7 +13,8 @@ let movies = [
   {
     title: 'The Dark Knight',
     director: 'Christopher Nolan',
-    genre: 'Action'
+    genre: 'Action',
+    movieID: '1',
   },
   {
     title: 'Blade Runner',
@@ -52,6 +53,7 @@ let movies = [
   }
 ];
 
+let users = [];
 
 //Gets the list of movies
 app.get('/movies', (req, res) => {
@@ -92,10 +94,12 @@ app.post('/users', (req, res) => {
 
 // Update user info (username)
 app.put('/users/:username', (req, res) => {
-  let user = users.find((user) => { return user.username ===req.params.username });
+  let user = users.find((user) => {
+    return user.name === req.params.username
+  });
 
   if (user) {
-    user.username[req.params.username] = parseInt(req.params.newusername);
+    user.name = req.body.newusername;
     res.status(201).send(user);
   }
 });
