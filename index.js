@@ -1,3 +1,12 @@
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+
+const Movies = Models.Movie;
+const Users = Models.User;
+
+mongoose.connect('mongodb://localhost:27017/myFlixDB',
+{ useNewUrlParser: true, useUnifiedTopology: true });
+
 const express = require('express');
   morgan = require('morgan');
   bodyParser = require('body-parser'),
@@ -19,7 +28,7 @@ let movies = [
   {
     title: 'Blade Runner',
     director: 'Ridley Scott',
-    genre: 'Action'
+    genre: 'Sci-fi'
   },
   {
     title: 'Inception',
@@ -29,7 +38,7 @@ let movies = [
   {
     title: 'se7en',
     director: 'David Fincher',
-    genre: 'Action'
+    genre: 'Thriller'
   },
   {
     title: 'Fargo',
@@ -50,6 +59,16 @@ let movies = [
     title: 'Monty Python and The Holy Grail',
     director: 'Terry Gilliam and Terry Jones',
     genre: 'Comedy'
+  },
+  {
+    title: 'Hot Fuzz',
+    director: 'Edgar Wright',
+    genre: 'Comedy'
+  },
+  {
+    title: 'From Russia With Love',
+    director: 'Terence Young',
+    genre: 'Action'
   }
 ];
 
