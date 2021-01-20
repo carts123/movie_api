@@ -1,3 +1,10 @@
+const express = require('express');
+  bodyParser = require('body-parser'),
+  uuid = require('uuid');
+
+
+const morgan = require('morgan');
+const app = express();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
@@ -7,76 +14,26 @@ const Users = Models.User;
 mongoose.connect('mongodb://localhost:27017/myFlixDB',
 { useNewUrlParser: true, useUnifiedTopology: true });
 
-const express = require('express');
-  morgan = require('morgan');
-  bodyParser = require('body-parser'),
-  uuid = require('uuid');
-
-const app = express();
 
 app.use(bodyParser.json());
 
 
 // Movie List
-let movies = [
-  {
-    title: 'The Dark Knight',
-    director: 'Christopher Nolan',
-    genre: 'Action',
-    movieID: '1',
-  },
-  {
-    title: 'Blade Runner',
-    director: 'Ridley Scott',
-    genre: 'Sci-fi'
-  },
-  {
-    title: 'Inception',
-    director: 'Christopher Nolan',
-    genre: 'Thriller'
-  },
-  {
-    title: 'se7en',
-    director: 'David Fincher',
-    genre: 'Thriller'
-  },
-  {
-    title: 'Fargo',
-    director: 'Joel and Ethan Coen',
-    genre: 'Comedy'
-  },
-  {
-    title: 'The Matrix',
-    director: 'Andy and Lana Wachowski',
-    genre: 'Action'
-  },
-  {
-    title: 'Good Will Hunting',
-    director: 'Gus Van Sant',
-    genre: 'Drama'
-  },
-  {
-    title: 'Monty Python and The Holy Grail',
-    director: 'Terry Gilliam and Terry Jones',
-    genre: 'Comedy'
-  },
-  {
-    title: 'Hot Fuzz',
-    director: 'Edgar Wright',
-    genre: 'Comedy'
-  },
-  {
-    title: 'From Russia With Love',
-    director: 'Terence Young',
-    genre: 'Action'
-  }
-];
+let movies = []
+
 
 let users = [];
 
 //Gets the list of movies
 app.get('/movies', (req, res) => {
-  res.json(movies);
+  Movies.find()
+  .then((movies) => {
+    res.status(201).json(movies);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
 });
 
 // Gets the data about a single movie, by title
