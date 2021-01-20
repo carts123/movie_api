@@ -10,6 +10,8 @@ const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
+const Genres = Models.Genre;
+const Directors = Models.Director;
 
 mongoose.connect('mongodb://localhost:27017/myFlixDB',
 { useNewUrlParser: true, useUnifiedTopology: true });
@@ -89,13 +91,13 @@ app.post('/users', (req, res) => {
       .then((user) => {
         res.status(201).json(user);
       })
-      .catch((error) => {
+      .catch((err) => {
         console.error(err);
         res.status(500).send("Error: " + err);
       });
     }
   })
-  .catch((error) => {
+  .catch((err) => {
     console.error(err);
     res.status(500).send("Error: " + err);
   });
@@ -103,6 +105,27 @@ app.post('/users', (req, res) => {
 
 // Update user info (username)
 app.put('/users/:username', (req, res) => {
+  Users.findOneAndUpdate({ Username: req.params.Username},
+    {
+       $set: {
+         Username: req.body.Username,
+         Password: req.body.Password,
+         Email: req.body.Email,
+         Birthday: req.body.Birthday
+       }
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if(err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      } else {
+        res.json(updatedUser);
+      }
+    });
+  });
+
+
   let user = users.find((user) => {
     return user.name === req.params.username
   });
@@ -111,7 +134,6 @@ app.put('/users/:username', (req, res) => {
     user.name = req.body.newusername;
     res.status(201).send(user);
   }
-});
 
 // Adds movie data to their list of favourites
 app.post('/users/:username/movies/:movieID', (req, res) => {
