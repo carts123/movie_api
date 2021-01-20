@@ -37,35 +37,68 @@ app.get('/movies', (req, res) => {
 });
 
 // Gets the data about a single movie, by title
-app.get('/movies/:title', (req, res) => {
-  res.json(movies.find((movie) =>
-    { return movie.title === req.params.title }));
+app.get('/movies/:Title', (req, res) => {
+  Movies.findOne({ Title: req.params.Title })
+  .then((movie) => {
+    res.json(movie);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
 });
 
 // Gets the data about a single genre by name/title
-app.get('/movies/genres/:title', (req, res) => {
-  res.json(movies.find((movie) =>
-    { return movie.title === req.params.title }));
+app.get('/genre/:Name', (req, res) => {
+  Genres.findOne({ Name: req.params.Name})
+  .then((genre) => {
+    res.json(genre.Description);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
 });
 
 // Gets the data about a single director, by name
-app.get('/movies/directors/:name', (req, res) => {
-  res.json(movies.find((director) =>
-    { return director.name === req.params.name }))
+app.get('/director/:Name', (req, res) => {
+  Directors.findOne({ Name: req.params.Name})
+  .then((director) => {
+    res.json(director);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
 });
+
 
 // Adds data for a new user to register
 app.post('/users', (req, res) => {
-  let newUser = req.body;
-
-  if (!newUser.name) {
-    const message = 'Missing name in request body';
-    res.status(400).send(message);
-  } else {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-    res.status(201).send(newUser);
-  }
+  Users.findOne({ Username: req.body.Username})
+  .then((user) => {
+    if (user) {
+      return res.status(400).send(req.body.Username + "already exists")
+    } else {
+      Users.create ({
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday,
+      })
+      .then((user) => {
+        res.status(201).json(user);
+      })
+      .catch((error) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+    }
+  })
+  .catch((error) => {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
 });
 
 // Update user info (username)
