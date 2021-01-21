@@ -104,7 +104,7 @@ app.post('/users', (req, res) => {
 });
 
 // Update user info (username)
-app.put('/users/:username', (req, res) => {
+app.put('/users/:Username', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username},
     {
        $set: {
@@ -161,12 +161,18 @@ app.delete('/movies/:movieID', (req, res) => {
 
 // Removes a user from the database
 app.delete('/users/:username', (req, res) => {
-  let user = users.find(user => { return user.username === req.params.username });
-
-  if (user) {
-    users = users.filter((obj) => { return obj.username !== req.params.username });
-    res.status(201).send('User ' + req.params.username + ' was deleted.');
-  }
+  Users.findOneAndRemove({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + ' was not found');
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted.');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 app.use('/', express.static('public'));
