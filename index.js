@@ -20,10 +20,6 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB',
 app.use(bodyParser.json());
 
 
-// Movie List
-let movies = []
-
-
 let users = [];
 
 //Gets the list of movies
@@ -31,6 +27,18 @@ app.get('/movies', (req, res) => {
   Movies.find()
   .then((movies) => {
     res.status(201).json(movies);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
+
+//Gets the list of users
+app.get('/users', (req, res) => {
+  Users.find()
+  .then((users) => {
+    res.status(201).json(users);
   })
   .catch((err) => {
     console.error(err);
@@ -50,11 +58,12 @@ app.get('/movies/:Title', (req, res) => {
   });
 });
 
+
 // Gets the data about a single genre by name/title
 app.get('/genre/:Name', (req, res) => {
-  Genres.findOne({ Name: req.params.Name})
+  Genres.findOne({ Name: req.params.Name })
   .then((genre) => {
-    res.json(genre.Description);
+    res.json(genre);
   })
   .catch((err) => {
     console.error(err);
@@ -64,7 +73,7 @@ app.get('/genre/:Name', (req, res) => {
 
 // Gets the data about a single director, by name
 app.get('/director/:Name', (req, res) => {
-  Directors.findOne({ Name: req.params.Name})
+  Directors.findOne({ Name: req.params.Name })
   .then((director) => {
     res.json(director);
   })
@@ -136,31 +145,43 @@ app.put('/users/:Username', (req, res) => {
   }
 
 // Adds movie data to their list of favourites
-app.post('/users/:username/movies/:movieID', (req, res) => {
-  let newMovie = req.body;
+app.post('/users/:Username/Movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username }, {
+      $push: { FavouriteMovies: req.params.MovieID }
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      } else {
+        res.json(updatedUser);
+      }
+    });
+  });
 
-  if (!newMovie.title) {
-    const message = 'Missing title in request body';
-    res.status(400).send(message);
-  } else {
-    newMovie.id = uuid.v4();
-    movies.push(newMovie);
-    res.status(201).send(newMovie);
-  }
-});
 
 // Removes a movie from the list
-app.delete('/movies/:movieID', (req, res) => {
-  let movie = movies.find((movie) => { return movie.id === req.params.id });
+app.delete('/users/:Username/Movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username }, {
+      $pull: { FavouriteMovies: req.params.MovieID }
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      } else {
+        res.json(updatedUser);
+      }
+    });
+  });
 
-  if (movie) {
-    movies = movies.filter((obj) => { return obj.id !== req.params.id });
-    res.status(201).send('Movie ' + req.params.id + ' was deleted.');
-  }
-});
 
 // Removes a user from the database
-app.delete('/users/:username', (req, res) => {
+app.delete('/users/:Username', (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
