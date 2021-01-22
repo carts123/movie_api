@@ -25,21 +25,21 @@
       </tr>
       <tr>
         <td>Return data about a single movie by title</td>
-        <td>/movies/:title</td>
+        <td>/movies/:Title</td>
         <td>GET</td>
         <td>none</td>
         <td>JSON</td>
       </tr>
       <tr>
         <td>Return data about a genre</td>
-        <td>/movies/genre</td>
+        <td>/genre/:Name</td>
         <td>GET</td>
         <td>none</td>
         <td>JSON</td>
       </tr>
       <tr>
         <td>Return data about a director</td>
-        <td>/movies/director/:name</td>
+        <td>/director/:Name</td>
         <td>GET</td>
         <td>none</td>
         <td>JSON</td>
@@ -53,28 +53,28 @@
       </tr>
       <tr>
         <td>Update user info</td>
-        <td>/users/:username</td>
+        <td>/users/:Username</td>
         <td>PUT</td>
         <td>none</td>
         <td>JSON</td>
       </tr>
       <tr>
         <td>Add movie to favourites</td>
-        <td>/users/:username/movies/:movieID</td>
+        <td>/users/:Username/Movies/:MovieID</td>
         <td>POST</td>
         <td>JSON</td>
         <td>Show text that a movie has been added</td>
       </tr>
       <tr>
         <td>Remove a movie from favourites</td>
-        <td>/users/:username/movies/:movieID</td>
+        <td>/users/:Username/Movies/:MovieID</td>
         <td>DELETE</td>
         <td>none</td>
         <td>Show text that the movie has been removed</td>
       </tr>
       <tr>
         <td>Allow users to deregister</td>
-        <td>/users/:username</td>
+        <td>/users/:Username</td>
         <td>DELETE</td>
         <td>none</td>
         <td>Show text that the user email has been removed</td>

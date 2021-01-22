@@ -20,7 +20,6 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB',
 app.use(bodyParser.json());
 
 
-let users = [];
 
 //Gets the list of movies
 app.get('/movies', (req, res) => {
@@ -133,16 +132,6 @@ app.put('/users/:Username', (req, res) => {
       }
     });
   });
-
-
-  let user = users.find((user) => {
-    return user.name === req.params.username
-  });
-
-  if (user) {
-    user.name = req.body.newusername;
-    res.status(201).send(user);
-  }
 
 // Adds movie data to their list of favourites
 app.post('/users/:Username/Movies/:MovieID', (req, res) => {
