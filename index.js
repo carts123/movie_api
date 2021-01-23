@@ -7,6 +7,8 @@ const morgan = require('morgan');
 const app = express();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
+const passport = require('passport');
+require('./passport');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -19,10 +21,11 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB',
 
 app.use(bodyParser.json());
 
+let auth = require('./auth')(app);
 
 
 //Gets the list of movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
   .then((movies) => {
     res.status(201).json(movies);
