@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const app = express();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
-const passport = require('passport');
+const passport = require( 'passport');
 require('./passport');
 
 const Movies = Models.Movie;
