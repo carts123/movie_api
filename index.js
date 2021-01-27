@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const Models = require('./models.js');
 const passport = require( 'passport');
 require('./passport');
+const cors = require('cors');
+
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -22,6 +24,19 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB',
 app.use(bodyParser.json());
 
 let auth = require('./auth')(app);
+
+let allowedOrigins = ['http://localhost:8080'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 
 //Gets the list of movies
@@ -87,7 +102,8 @@ app.get('/director/:Name', passport.authenticate('jwt', { session: false }), (re
 
 
 // Adds data for a new user to register
-app.post('/users', assport.authenticate('jwt', { session: false }), (req, res) => {
+app.post('/users', (req, res) => {
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username})
   .then((user) => {
     if (user) {
@@ -95,7 +111,7 @@ app.post('/users', assport.authenticate('jwt', { session: false }), (req, res) =
     } else {
       Users.create ({
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday,
       })
@@ -116,11 +132,12 @@ app.post('/users', assport.authenticate('jwt', { session: false }), (req, res) =
 
 // Update user info (username)
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOneAndUpdate({ Username: req.params.Username},
     {
        $set: {
          Username: req.body.Username,
-         Password: req.body.Password,
+         Password: hashedPassword,
          Email: req.body.Email,
          Birthday: req.body.Birthday
        }
