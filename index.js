@@ -92,9 +92,9 @@ app.get('/genre/:Genre', passport.authenticate('jwt', { session: false }), (req,
 
 // Gets the data about a single director, by name
 app.get('/director/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Directors.findOne({ Name: req.params.Name })
-  .then((director) => {
-    res.json(director);
+  Movies.findOne({ 'Director.Name': req.params.Director })
+  .then((movie) => {
+    res.json(movie.Director);
   })
   .catch((err) => {
     console.error(err);
