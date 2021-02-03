@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 
 let auth = require('./auth')(app);
 
-let allowedOrigins = ['http://localhost:8080'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
 
 app.use(cors({
   origin: (origin, callback) => {
