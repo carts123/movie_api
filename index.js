@@ -190,7 +190,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 app.post('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username }, {
-      $push: { FavouriteMovies: req.params.MovieID }
+      $push: { FavoriteMovies: req.params.MovieID }
     },
     { new: true }, // This line makes sure that the updated document is returned
     (err, updatedUser) => {
@@ -208,7 +208,7 @@ app.post('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', { sess
 app.delete('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username }, {
-      $pull: { FavouriteMovies: req.params.MovieID }
+      $pull: { FavoriteMovies: req.params.MovieID }
     },
     { new: true }, // This line makes sure that the updated document is returned
     (err, updatedUser) => {
