@@ -108,6 +108,18 @@ app.get('/director/:Director', passport.authenticate('jwt', { session: false }),
 });
 
 
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+	Users.findOne({ Username: req.params.Username })
+		.then((user) => {
+			res.json(user);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).send('Error: ' + err);
+		});
+});
+
+
 // Adds data for a new user to register
 app.post('/users',
   [
