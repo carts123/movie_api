@@ -22,7 +22,6 @@ mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifie
 
 //mongoose.connect('mongodb://localhost:27017/myFlixDB'
 
-
 app.use(bodyParser.json());
 
 let auth = require('./auth')(app);
