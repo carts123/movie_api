@@ -30,7 +30,6 @@ let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
 
 app.use(cors());
 
-
 // Get home page
 app.get('/', (req, res) => {
 	res.send('Welcome to MyCFDB!');
