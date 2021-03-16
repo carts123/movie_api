@@ -28,7 +28,7 @@ let auth = require('./auth')(app);
 
 let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
 
- allows access from all origins app.use(cors());
+app.use(cors());
 
 
 // Get home page
