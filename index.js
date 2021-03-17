@@ -24,11 +24,11 @@ mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifie
 
 app.use(bodyParser.json());
 
+app.use(cors());
+
 let auth = require('./auth')(app);
 
 let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
-
-app.use(cors());
 
 // Get home page
 app.get('/', (req, res) => {
